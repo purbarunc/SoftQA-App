@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="tags-container" id="all-tags-container">
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $('#all-tags-container').load('@Url.Action("GetTags","Tags")');
+    </script>
+}

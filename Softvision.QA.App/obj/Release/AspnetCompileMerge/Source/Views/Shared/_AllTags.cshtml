@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Softvision.QA.App.Models.Tag>
+<div class="row">
+    @foreach (var t in Model)
+    {
+        <div class="col-md-3 all-tags-item-meta">
+            <a href="#" class="all-tags-item"
+               data-toggle="popover"
+               title="@t.Name"
+               data-content="@t.Description">@t.Name</a>
+            <div class="all-tags-item-info">
+                @t.Description
+            </div>
+            <div class="all-tags-item-links">
+                <ul class="list-inline">
+                    <li><a href="#">questions</a></li>
+                    <li><a href="#">info</a></li>
+                    <li><a href="#">top users</a></li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

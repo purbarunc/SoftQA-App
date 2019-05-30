@@ -1,0 +1,127 @@
+﻿@using Softvision.QA.App.Models;
+@using Softvision.QA.App.Helpers;
+@model IEnumerable<Question>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="subheader">
+                <h1>Top Question</h1>
+            </div>
+            <div id="qlist-wrapper">
+                <div id="question-mini-list">
+                    @foreach (var question in Model)
+                    {
+                        <div class="question-summary">
+                            <div class="statscontainer">
+                                <div class="statsarrow"></div>
+                                <div class="stats">
+                                    <div class="vote">
+                                        <div class="votes">
+                                            <span class="vote-count-post "><strong>0</strong></span>
+                                            <div class="viewcount">votes</div>
+                                        </div>
+                                    </div>
+                                    @if (question.Answers.Where(a => a.IsCorrect).Count() > 0)
+                                    {
+                                        <div class="status unanswered" style="background: #5FBA7D; border-radius: 3px; color:#fff;">
+                                            <strong>@question.Answers.Count</strong>answers
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="status unanswered">
+                                            <strong>@question.Answers.Count</strong>answers
+                                        </div>
+                                    }
+                                    <div class="views" title="@(question.Views) views">
+                                        @(question.Views) views
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary">
+                                <h3>
+                                    <a href="@Url.Action("Details", "Question", new { id = @question.Id })" class="question-hyperlink">@question.Title</a>
+                                </h3>
+                                <div class="excerpt">
+                                    @Html.Raw(@question.ShortDescription)
+                                </div>
+                                <div class="tags">
+                                    @foreach (var tag in question.Tags.ToList())
+                                    {
+                                        <a href="#" class="post-tag" title="@tag.Name" rel="tag">@tag.Name</a>
+                                    }
+                                </div>
+                                <div class="started fr started-question">
+                                    <div class="user-info user-hover">
+                                        <div class="user-action-time">
+                                            asked <span title="@question.CreatedOn" class="relativetime">@question.CreatedOn.TimeAgo()</span>
+                                        </div>
+                                        <div class="user-gravatar32">
+                                            <a href="javascript:;">
+                                                <div class="gravatar-wrapper-32">
+                                                    <img src="~/Images/avatar.png" alt="@question.CreatedBy" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="user-details">
+                                            <a href="javascript:;">@question.CreatedBy</a>
+                                            @*<div class="-flair">
+                                                    <span class="reputation-score" title="reputation score 24,798" dir="ltr">24.8k</span>
+                                                    <span title="93 gold badges">
+                                                        <span class="badge1">•</span>
+                                                        <span class="badgecount">93</span>
+                                                    </span>
+                                                    <span title="211 silver badges">
+                                                        <span class="badge2">•</span>
+                                                        <span class="badgecount">211</span>
+                                                    </span>
+                                                    <span title="315 bronze badges">
+                                                        <span class="badge3">•</span>
+                                                        <span class="badgecount">315</span>
+                                                    </span>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 sidebar">
+            <div class="visible-lg" id="sidebar-btn">
+                @Html.ActionLink("Ask Question", "Ask", "Question", null, new Dictionary<string, object> { { "class", "btn btn-primary" } })
+            </div>
+            <div class="container model visible-lg">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="my-skills">
+                            <h4>My Skills</h4>
+                            <ul class="list-inline">
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">Asp.Net</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">Asp.Net MVC</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">JQuery</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">C#</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content(string.Format("~/Content/Markdown/markdown/Markdown.Converter.js?v={0}", System.Configuration.ConfigurationManager.AppSettings["app:version"]))" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var converter = new Markdown.Converter();
+            var html = converter.makeHtml($('.question-description').html());
+        });
+    </script>
+}

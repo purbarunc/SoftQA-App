@@ -1,0 +1,222 @@
+﻿@using Softvision.QA.App.Helpers;
+@model Softvision.QA.App.Models.Question
+@{
+    int point = (from v in Model.Votes select v.Point).Sum();
+    string vUpStatus = point > 0 ? "vote-up-on" : "vote-up-off";
+    string vDownStatus = point < 0 ? "vote-down-on" : "vote-down-off";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="section">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="question-header" class="col-md-12">
+                            <h1 itemprop="name">
+                                <a href="#" class="question-hyperlink">@Html.DisplayFor(model => model.Title)</a>
+                            </h1>
+                        </div>
+                        <div class="question-details-meta">
+                            <div class="question-details-description">
+                                <div class="col-md-1 col-xs-2 votecell">
+                                    <div class="vote">
+                                        @Html.HiddenFor(model => model.Id)
+                                        <a class="@vUpStatus" id="q_uv" data-point="1" data-question="@(Model.Id)" data-ref="#vote_count_for_@(Model.Id)" href="javascript:;" title="This question shows research effort; it is useful and clear">up vote</a>
+                                        <span itemprop="upvoteCount" class="vote-count-post" id="vote_count_for_@(Model.Id)">
+                                            @point
+                                        </span>
+                                        <a class="@vDownStatus" id="q_dv" data-point="-1" data-question="@(Model.Id)" data-ref="#vote_count_for_@(Model.Id)" href="javascript:;" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+                                        <a class="star-off" href="javascript:;" title="Click to mark as favorite question (click again to undo)">favorite</a>
+                                        <div class="favoritecount">
+                                            <b>0</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-11 col-xs-10">
+                                    <div class="summary" style="width:100%">
+                                        <div class="excerpt">
+                                            @Html.Raw(Model.Preview)
+                                        </div>
+                                        <div class="tags">
+                                            @foreach (var tag in Model.Tags.ToList())
+                                            {
+                                                <a href="#" class="post-tag" title="@tag.Name" rel="tag">@tag.Name</a>
+                                            }
+                                        </div>
+                                        <div class="started fr started-question">
+                                            <div class="user-info user-hover">
+                                                <div class="user-action-time">
+                                                    asked <span title="@Model.CreatedOn" class="relativetime">@Model.CreatedOn.TimeAgo()</span>
+                                                </div>
+                                                <div class="user-gravatar32">
+                                                    <a href="javascript:;">
+                                                        <div class="gravatar-wrapper-32">
+                                                            <img src="~/Images/avatar.png" alt="@Model.CreatedBy" />
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="user-details">
+                                                    <a href="javascript:;">@Model.CreatedBy</a>
+                                                    @*<div class="-flair">
+                                                            <span class="reputation-score" title="reputation score 24,798" dir="ltr">24.8k</span>
+                                                            <span title="93 gold badges">
+                                                                <span class="badge1">•</span>
+                                                                <span class="badgecount">93</span>
+                                                            </span>
+                                                            <span title="211 silver badges">
+                                                                <span class="badge2">•</span>
+                                                                <span class="badgecount">211</span>
+                                                            </span>
+                                                            <span title="315 bronze badges">
+                                                                <span class="badge3">•</span>
+                                                                <span class="badgecount">315</span>
+                                                            </span>
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Answers.Count() > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="question-details-answers-count-title">
+                                <h1>@(Model.Answers.Count()) Answers</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @foreach (var answer in Model.Answers)
+                        {
+                            int apoint = (from v in answer.Votes select v.Point).Sum();
+                            string avUpStatus = point > 0 ? "vote-up-on" : "vote-up-off";
+                            string avDownStatus = point < 0 ? "vote-down-on" : "vote-down-off";
+
+                            <div class="col-sm-12" style="padding-top:10px;">
+                                <div class="question-details-meta">
+                                    <div class="question-details-description">
+                                        <div class="row">
+                                            <div class="col-md-1 col-xs-2 votecell">
+                                                <div class="vote">
+                                                    <a class="@avUpStatus" id="a_uv" data-point="1" data-question="@(answer.Id)" data-ref="#avote_count_for_@(answer.Id)" href="javascript:;" title="This answer is useful">up vote</a>
+                                                    <span itemprop="upvoteCount" class="vote-count-post" id="avote_count_for_@(answer.Id)">
+                                                        @apoint
+                                                    </span>
+                                                    <a class="@avDownStatus" id="a_uv" data-point="-1" data-question="@(answer.Id)" data-ref="#avote_count_for_@(answer.Id)" href="javascript:;" title="This answer is not useful">down vote</a>
+                                                    @if (User.Identity.Name == Model.CreatedBy)
+                                                    {
+                                                        if (answer.IsCorrect)
+                                                        {
+                                                            <a class="response-to-answer" id="a_accepted" data-status="0" data-answer="@(answer.Id)" data-ref="#status_for_@(answer.Id)" href="javascript:;">
+                                                                <span id="status_for_@(answer.Id)" class="vote-accepted-on" title="Click to accept this answer because it solved your problem or was the most helpful in finding your solution (click again to undo)"></span>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="response-to-answer" id="a_not_accepted" data-status="1" data-answer="@(answer.Id)" data-ref="#status_for_@(answer.Id)" href="javascript:;">
+                                                                <span id="status_for_@(answer.Id)" class="vote-accepted-off" title="Click to accept this answer because it solved your problem or was the most helpful in finding your solution (click again to undo)"></span>
+                                                            </a>
+                                                        }
+                                                        <img class="ansLoader" id="loader_for_@(answer.Id)" style="display:none" src="~/Images/ajax-loader.gif" />
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-md-11 col-xs-10">
+                                                <div class="summary" style="width:100%">
+                                                    <div class="excerpt">
+                                                        @Html.Raw(answer.Preview)
+                                                    </div>
+                                                    <div class="started fr started-answer">
+                                                        <div class="user-info user-hover">
+                                                            <div class="user-action-time">
+                                                                answered <span title="@answer.CreatedOn" class="relativetime">@answer.CreatedOn.TimeAgo()</span>
+                                                            </div>
+                                                            <div class="user-gravatar32">
+                                                                <a href="javascript:;">
+                                                                    <div class="gravatar-wrapper-32">
+                                                                        <img src="~/Images/avatar.png" alt="@answer.AnsweredBy" />
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="user-details">
+                                                                <a href="javascript:;">@answer.AnsweredBy</a>
+                                                                @*<div class="-flair">
+                                                                        <span class="reputation-score" title="reputation score 24,798" dir="ltr">24.8k</span>
+                                                                        <span title="93 gold badges">
+                                                                            <span class="badge1">•</span>
+                                                                            <span class="badgecount">93</span>
+                                                                        </span>
+                                                                        <span title="211 silver badges">
+                                                                            <span class="badge2">•</span>
+                                                                            <span class="badgecount">211</span>
+                                                                        </span>
+                                                                        <span title="315 bronze badges">
+                                                                            <span class="badge3">•</span>
+                                                                            <span class="badgecount">315</span>
+                                                                        </span>
+                                                                    </div>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix" style="border-bottom: 1px dotted #ccc; margin: 2px 3px">
+                                &nbsp;
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="question-details-your-answer">
+                            <h1>Your Answer</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Partial("_AnswerEditor", (Softvision.QA.App.Models.Answer)ViewBag.NewAnswer)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="sidebar">
+            <div class="visible-lg" id="sidebar-btn">
+                @Html.ActionLink("Ask Question", "Ask", "Question", null, new Dictionary<string, object> { { "class", "btn btn-primary" } })
+            </div>
+            <div class="container model visible-lg">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="question-details-quickinfo">
+                            <li><span style="color:#808080">Asked By : </span> @Model.CreatedBy</li>
+                            <li><span style="color:#808080">Asked On : </span> @Model.CreatedOn.TimeAgo()</li>
+                            <li><span style="color:#808080">Views : </span> @Model.Views</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link href="@Url.Content("~/Content/Markdown/css/wmd.css")" rel="stylesheet" />
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/sk")
+    <script src="@Url.Content(string.Format("~/Content/Question/Details.js", System.Configuration.ConfigurationManager.AppSettings["app:version"]))"></script>
+}

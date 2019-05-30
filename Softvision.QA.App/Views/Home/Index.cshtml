@@ -1,0 +1,99 @@
+﻿@using Softvision.QA.App.Models;
+@using Softvision.QA.App.Helpers;
+
+@model  Softvision.QA.App.Helpers.Paging
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .body {
+       overflow:visible;
+    }
+    .wrapper {
+       overflow:visible;
+    }
+</style>
+<div class="container" id="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="subheader">
+                <h1>Top Question</h1>
+            </div>
+            <div id="qlist-wrapper">
+                <div id="question-mini-list">
+                   @Html.Partial("_QuestionList", (Paging)ViewBag.QuestionList)
+                </div>
+                <center>
+                    <div id="progress">
+                        <img src="~/Images/ajax-loader.gif" />
+                    </div>
+                </center>
+            </div>
+        </div>
+        <div class="col-md-3 sidebar">
+            <div class="visible-lg" id="sidebar-btn">
+                @Html.ActionLink("Ask Question", "Ask", "Question", null, new Dictionary<string, object> { { "class", "btn btn-primary" } })
+            </div>
+            <div class="container model visible-lg" style="display:none !important">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="my-skills">
+                            <h4>My Skills</h4>
+                            <ul class="list-inline">
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">Asp.Net</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">Asp.Net MVC</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">JQuery</a></li>
+                                <li class="list-inline-item text-center"><a href="#" class="post-tag" title="Asp.net" rel="tag">C#</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content(string.Format("~/Content/Markdown/markdown/Markdown.Converter.js?v={0}", System.Configuration.ConfigurationManager.AppSettings["app:version"]))" type="text/javascript"></script>
+    <script type="text/javascript">
+        var pageIndex = 1;
+        $(document).ready(function () {
+            document.body.onscroll = function (e) {
+                
+                if (document.body.scrollTop + 50 >= document.body.scrollHeight - document.body.offsetHeight) {
+                   GetData();
+                }
+            }
+            var converter = new Markdown.Converter();
+            var html = converter.makeHtml($('.question-description').html());
+        })
+
+        function GetData() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("FetchData")',
+                data: { "pageIndex": pageIndex },
+                success: function (data) {
+                    console.log(data);
+                    if ($('#empty-div').not(':empty')) 
+                    {
+                        $("#progress").show();
+                        $("#question-mini-list").append(data);
+                        pageIndex++;
+                    }
+                    else {
+                    }
+                },
+                beforeSend: function () {
+                    
+                },
+                complete: function () {
+                    $("#progress").hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                  alert("Erro;r while retrieving data!");
+                }
+            });
+        }
+    </script>
+}

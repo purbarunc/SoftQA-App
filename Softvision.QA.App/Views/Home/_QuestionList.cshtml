@@ -1,0 +1,77 @@
+﻿@using Softvision.QA.App.Helpers;
+@using Softvision.QA.App.Models;
+@model  Softvision.QA.App.Helpers.Paging
+
+@{
+    Layout = null;
+}
+@if (Model.Questions.Count() > 0)
+ {
+    foreach (var question in Model.Questions)
+    {
+        <div class="question-summary">
+            <div class="statscontainer">
+                <div class="statsarrow"></div>
+                <div class="stats">
+                    <div class="vote">
+                        <div class="votes">
+                            <span class="vote-count-post "><strong>0</strong></span>
+                            <div class="viewcount">votes</div>
+                        </div>
+                    </div>
+                    @if (question.Answers.Where(a => a.IsCorrect).Count() > 0)
+                    {
+                        <div class="status unanswered" style="background: #5FBA7D; border-radius: 3px; color:#fff;">
+                            <strong>@question.Answers.Count</strong>answers
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="status unanswered">
+                            <strong>@question.Answers.Count</strong>answers
+                        </div>
+                    }
+                    <div class="views" title="@(question.Views) views">
+                        @(question.Views) views
+                    </div>
+                </div>
+            </div>
+            <div class="summary">
+                <h3>
+                    <a href="@Url.Action("Details", "Question", new { id = @question.Id })" class="question-hyperlink">@question.Title</a>
+                </h3>
+                <div class="excerpt">
+                    @Html.Raw(@question.ShortDescription)
+                </div>
+                <div class="tags">
+                    @foreach (var tag in question.Tags.ToList())
+                    {
+                        <a href="#" class="post-tag" title="@tag.Name" rel="tag">@tag.Name</a>
+                    }
+                </div>
+                <div class="started fr started-question">
+                    <div class="user-info user-hover">
+                        <div class="user-action-time">
+                            asked <span title="@question.CreatedOn" class="relativetime">@question.CreatedOn.TimeAgo()</span>
+                        </div>
+                        <div class="user-gravatar32">
+                            <a href="javascript:;">
+                                <div class="gravatar-wrapper-32">
+                                    <img src="~/Images/avatar.png" alt="@question.CreatedBy" />
+                                </div>
+                            </a>
+                        </div>
+                        <div class="user-details">
+                            <a href="javascript:;">@question.CreatedBy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     }
+ }
+else
+{
+    <div id="empty-div">
+    </div>
+}

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@*<style>
+    body {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin-top: 50px;
+    }
+    .wrapper {
+        height: 100%;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+</style>*@
+<div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li role="presentation" class="active">
+            <a class="active" data-toggle="tab" href="#home" role="tab" aria-controls="home">Profile</a>
+        </li>
+        <li role="presentation">
+            <a  data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">My Activities</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div>
+                <img src="~/Images/avatar.png" align="left" padding="10px" height="100">
+            </div>
+            <div>
+                <b>@Session["username"].ToString()</b>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+            <div><b>My Questions</b></div>
+            <br />
+            <div id="question-list">
+                @Html.Partial("_MyQuestions")
+            </div>
+            <div><b>My Answers</b></div>
+            <br />
+            <div id="answer-list">
+                @Html.Partial("_MyAnswers")
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#question-list").on("click", ".question-link", function (event) {
+            var qpage = parseInt($(this).html());
+            $.ajax({
+                url: '@Url.Action("GetQuestions")',
+                data: { "pageIndex": qpage },
+                success: function (data) {
+                    $("#question-list").empty().append(data);
+                }
+            });
+        });
+
+        $("#answer-list").on("click", ".answer-link", function (event) {
+            var apage = parseInt($(this).html());
+            $.ajax({
+                url: '@Url.Action("GetAnswers")',
+                data: { "pageIndex": apage },
+                success: function (data) {
+                    $("#answer-list").empty().append(data);
+                }
+            });
+        });
+    });
+</script>
+}

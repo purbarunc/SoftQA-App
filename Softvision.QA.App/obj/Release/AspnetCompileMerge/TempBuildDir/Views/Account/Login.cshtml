@@ -1,0 +1,34 @@
+﻿@model Softvision.QA.App.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-md-offset-4 col-centered">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(false)
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserName)
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password)
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <input type="submit" value="Sign in">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

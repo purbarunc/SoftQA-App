@@ -1,0 +1,46 @@
+﻿@model Softvision.QA.App.Helpers.Paging
+@using Softvision.QA.App.Models
+@{
+    Layout = null;
+}
+
+@if (Model.MyAnswers.Count() > 0)
+{
+    <div style="height:40px">
+        @foreach (var item in Model.MyAnswers)
+        {
+            <a href="@Url.Action("Details","Question",new { id = item.QuestionId})" target="_blank">@item.Description</a>
+            <br />
+        }
+    </div>
+    <br />
+    <div>
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.AnswerPages; i++)
+            {
+                if (ViewBag.CurrentAnswerPage == i)
+                {
+                    <li class="page-item active"><a class="page-link answer-link">@i <span class="sr-only">(current)</span></a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link answer-link" href="#">@i</a></li>
+                }
+            }
+            <li class="page-item">
+                <a class="page-link">Next</a>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div>
+        No Answers to Show.
+        @Html.ActionLink("Answer Question", "Index", "Home", null, new Dictionary<string, object> { { "class", "btn btn-primary" } })
+    </div>
+}
+

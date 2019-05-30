@@ -1,0 +1,534 @@
+﻿/*@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic";*/
+/* cyrillic-ext */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/1.woff2) format('woff2');
+    unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/2.woff2) format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/3.woff2) format('woff2');
+    unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/4.woff2) format('woff2');
+    unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/5.woff2) format('woff2');
+    unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/6.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/Fonts/SourceSansPro-Regular/7.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+html,
+body {
+    /*height: 100%;*/
+}
+
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 50px;
+}
+
+/* Layout */
+.wrapper {
+    height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .wrapper:before,
+    .wrapper:after {
+        content: " ";
+        display: table;
+    }
+
+    .wrapper:after {
+        clear: both;
+    }
+
+
+.layout-boxed .wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+    min-height: 100%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.layout-boxed {
+    background: url('../img/boxed-bg.jpg') repeat fixed;
+}
+
+.content-wrapper {
+    -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+    z-index: 820;
+}
+
+@media (max-width: 767px) {
+    .content-wrapper {
+        margin-left: 0;
+    }
+}
+
+.content-wrapper {
+    min-height: 100%;
+    z-index: 800;
+}
+
+.subheader {
+    clear: both;
+    margin-bottom: 10px;
+    height: 40px;
+    border-bottom: 1px solid #e4e6e8;
+}
+
+    .subheader h1 {
+        color: #242729;
+        font-size: 18px;
+        line-height: 2.22;
+    }
+
+/*============================================================================
+    HEADER SECION
+==============================================================================*/
+.so-header {
+    background-color: #172B3F;
+    color: #fff !important;
+    border-top: 3px solid #f48024;
+    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.15);
+}
+
+    .so-header a {
+        color: #fff !important;
+    }
+
+/*============================================================================
+    CONTENT SECION
+==============================================================================*/
+/* Question List*/
+#qlist-wrapper {
+    clear: both;
+}
+
+#question-mini-list {
+    overflow: auto;
+    margin-bottom: 30px;
+}
+
+.question-summary {
+    overflow: hidden;
+    padding: 15px 0;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #eff0f1;
+}
+
+.statscontainer {
+    float: left;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.stats {
+    margin: 0;
+    width: 58px;
+}
+
+.vote {
+    text-align: center;
+}
+
+    .vote span {
+        display: block;
+        color: #6a737c;
+    }
+
+.statscontainer .votes {
+    color: #6a737c;
+    font-size: 11px;
+    padding: 0;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.vote-count-post {
+    display: block;
+    font-size: 20px;
+    margin: 0 0 3px;
+}
+
+.statscontainer .status.unanswered {
+    color: #6a737c;
+}
+
+.statscontainer .status {
+    padding: 7px 0 5px;
+    font-size: 11px;
+}
+
+    .statscontainer .status strong {
+        font-size: 20px;
+        display: block;
+    }
+
+.status {
+    padding: 0;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.statscontainer .views {
+    width: 58px;
+}
+
+.views {
+    padding-top: 4px;
+    text-align: center;
+    font-size: 11px;
+    color: #6a737c;
+}
+
+.summary {
+    padding: 0;
+    float: left;
+    width: 90%;
+}
+
+    .summary h3 {
+        font-size: 15px;
+        line-height: 1.4;
+        margin-bottom: .5em;
+        margin-top: 0;
+    }
+
+.excerpt {
+    padding: 0;
+    padding-bottom: 5px;
+    margin: 0;
+    color: #3b4045;
+    font-size: 14px;
+    height: 38px;
+    overflow: hidden;
+}
+
+.tags {
+    line-height: 18px;
+    float: left;
+}
+
+.started {
+    width: auto;
+    line-height: inherit;
+    padding-top: 4px;
+    white-space: nowrap;
+    float: right;
+}
+
+    .started .reputation-score, .started .user-info {
+        color: #848d95;
+    }
+
+.started-link {
+    font-size: 12px;
+    color: #9199a1;
+}
+
+.reputation-score {
+    font-weight: bold;
+    font-size: 12px;
+    margin-right: 2px;
+}
+
+.user-info {
+    box-sizing: border-box;
+    padding: 5px 6px 7px 7px;
+    width: 200px;
+    color: #6a737c;
+}
+
+    .user-info .user-action-time {
+        margin-top: 1px;
+        margin-bottom: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .user-info .user-gravatar32 {
+        float: left;
+        width: 32px;
+        height: 32px;
+        border-radius: 1px;
+    }
+
+        .user-info .user-gravatar32 + .user-details {
+            margin-left: 8px;
+            width: calc(100% - 40px);
+        }
+
+    .user-info .user-details {
+        float: left;
+        width: 100%;
+        line-height: 17px;
+        word-wrap: break-word;
+    }
+
+.badge1, .badge2, .badge3 {
+    font-size: 29px;
+    font-weight: bold;
+    vertical-align: sub;
+}
+
+.badge1 {
+    color: gold;
+}
+
+.badge2 {
+    color: silver;
+}
+
+.badge3 {
+    color: brown;
+}
+
+.started-question, .started-answer {
+    padding: 1px 0 8px 0;
+    margin: 15px 0;
+    background-color: #E0EAF1;
+}
+
+.started-question {
+    background-color: #f7e8e8;
+}
+
+.vote-accepted-on {
+    background-position: -40px -270px;
+}
+
+.vote-accepted-off {
+    background-position: 1px -270px;
+}
+
+
+/*============================================================================
+    SIDEBAR SECION
+==============================================================================*/
+#sidebar-btn {
+    clear: both;
+    margin-bottom: 10px;
+    height: 40px;
+    border-bottom: 1px solid #e4e6e8;
+    margin-top: 20px;
+}
+
+#sidebar h4 {
+    display: inline-block;
+}
+
+.post-tag {
+    color: #39739d;
+    background-color: #E1ECF4;
+    border-color: transparent;
+    position: relative;
+    display: inline-block;
+    padding: .4em .5em;
+    margin: 2px 2px 2px 0;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0;
+    transition: all .15s ease-in-out;
+}
+
+/*============================================================================
+    ASK QUESTION
+==============================================================================*/
+.sidebar-help {
+    overflow-wrap: break-word;
+    background-color: #fff8dc;
+    border: 1px solid #e0dcbf;
+    font-size: 14px;
+    padding: 15px 15px 10px;
+    margin-bottom: 1.5em;
+}
+
+/*============================================================================
+    VALIDATION
+==============================================================================*/
+.field-validation-error {
+    color: red;
+}
+
+.field-validation-valid {
+    color: green;
+}
+
+/*============================================================================
+    WAITING BAR
+==============================================================================*/
+.waiting-bar {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 2px;
+}
+
+/*============================================================================
+    TAGS PAGE
+==============================================================================*/
+.all-tags-item-meta {
+    border-bottom: 1px dotted #e4e6e7;
+    padding: 12px;
+    vertical-align: top;
+}
+
+    .all-tags-item-meta .all-tags-item-info {
+        font-size: 12px;
+        height: 39px;
+        line-height: 14px;
+        margin-bottom: 4px;
+        overflow: hidden;
+        color: #858c93;
+    }
+
+    .all-tags-item-meta .all-tags-item-links {
+        padding-right: 8px;
+        padding-top: 4px;
+        font-size: 11px;
+    }
+
+.popover-title {
+    background-color: #E1ECF4;
+    text-align: center;
+}
+
+.popover-content {
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(12, 13, 14, 0.3);
+    color: #535a60;
+    font-size: 12px;
+    text-align: left;
+}
+
+.arrow {
+    border-color: #F48024;
+}
+
+/*============================================================================
+    QUESTION DETAILS PAGE
+==============================================================================*/
+#question-header {
+    clear: both;
+    margin-bottom: 1em;
+    padding: 3px 0;
+    border-bottom: 1px solid #e4e6e8;
+}
+
+    #question-header h1 {
+        margin-bottom: .1em;
+        font-size: 22px;
+    }
+
+    #question-header .question-hyperlink {
+        font-size: 24px;
+        line-height: 1.35;
+        font-weight: normal;
+        margin-bottom: .5em;
+        color: #242729 !important;
+    }
+
+
+.question-details-title,
+.question-details-your-answer,
+.question-details-answers-count-title {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4e6e8;
+    clear: both;
+    margin-bottom: 1em;
+    padding: 5px 0;
+}
+
+.question-details-your-answer {
+    border-bottom: 0 none transparent;
+    clear: both;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 0;
+    margin-left: 12px;
+    padding: 2px 0;
+}
+
+.question-details-title h1 {
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.question-details-your-answer h1,
+.question-details-answers-count-title h1 {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.question-details-quickinfo {
+    display: table-row-group;
+}
+
+    .question-details-quickinfo li {
+        font-size: inherit;
+        list-style-type: none;
+        padding: 5px 0;
+        color: #242729;
+    }
+
+.page-link {
+    cursor: pointer;
+}

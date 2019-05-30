@@ -1,0 +1,83 @@
+﻿@model Softvision.QA.App.Models.Question
+
+@{
+    ViewBag.Title = "Ask Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-8">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Title, new Dictionary<string, object> { { "class", "form-control" }, { "placeholder", "What's your question? Be specific." }, { "autocomplete", "off" } })
+                            @Html.ValidationMessageFor(model => model.Title)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, new Dictionary<string, object> { { "class", "control-label col-md-2" }, { "style", "visibility:hidden" } })
+                        <div class="col-md-10">
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar"></div>
+                                @Html.TextAreaFor(model => model.Description, new Dictionary<string, object> { { "class", "form-control wmd-input" }, { "id", "ask_question_body" }, { "rows", "8" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Description)
+                            <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+                            @Html.HiddenFor(model => model.Preview, new Dictionary<string, object> { { "id", "wmd-hdn-preview" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tags, new Dictionary<string, object> { { "class", "control-label col-md-2" } })
+                        <div class="col-md-10">
+                            <input id="Tags" name="Tags" class="form-control" placeholder="at least one tag such as (forms c c#), max 5 tags" />
+                            @Html.ValidationMessageFor(model => model.Tags)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Post Your Question" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="sidebar-help" id="how-to-title" style="display: block;">
+                <h4>How to Ask</h4>
+                <p><b>Is your question about programming?</b></p>
+                <p>We prefer questions that can be <i>answered</i>, not just discussed.</p>
+                <p>Provide details. Share your research.</p>
+            </div>
+            <div class="sidebar-help" id="how-to-format" style="display: none;">
+                <h4>How to Format</h4>
+                <p><span class="dingus">►</span> put returns between paragraphs</p>
+                <p><span class="dingus">►</span> for linebreak add 2 spaces at end</p>
+                <p><span class="dingus">►</span> <i>_italic_</i> or <b>**bold**</b></p>
+                <p><span class="dingus">►</span> indent code by 4 spaces</p>
+                <p><span class="dingus">►</span> backtick escapes <code>`like _so_`</code></p>
+                <p><span class="dingus">►</span> quote by placing &gt; at start of line</p>
+                <p><span class="dingus">►</span> to make links</p>
+                <p>&lt;http://foo.com&gt;<br>[foo](http://foo.com)<br>&lt;a href="http://foo.com"&gt;foo&lt;/a&gt;</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link href="@Url.Content(string.Format("~/Content/Markdown/css/wmd.css?v={0}", System.Configuration.ConfigurationManager.AppSettings["app:version"]))" rel="stylesheet" />
+    <link href="@Url.Content(string.Format("~/Content/tags/css/token-input.css?v={0}", System.Configuration.ConfigurationManager.AppSettings["app:version"]))" rel="stylesheet" />
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/sk")
+    <script src="@Url.Content(string.Format("~/Content/tags/js/jquery.tokeninput.js", System.Configuration.ConfigurationManager.AppSettings["app:version"]))"></script>
+    <script src="@Url.Content(string.Format("~/Content/Question/Ask.js", System.Configuration.ConfigurationManager.AppSettings["app:version"]))"></script>
+}
